@@ -29,19 +29,43 @@ struct Amazonas {
 };
 
 struct Usuario *usuarioCarritoMasGrande(struct Amazonas *amazonas) {
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
+    struct NodoUsuarios *currentUser = amazonas->usuarios;
+    struct Usuario *maxUser = NULL;
+    int maxCartSize = 0;
+
+    while (currentUser != NULL) {
+        int cartSize = 0;
+        struct NodoProductos *currentProduct = currentUser->usuario->carrito; // Suponiendo que 'carrito' es una lista de productos
+        while (currentProduct != NULL) {
+            cartSize++;
+            currentProduct = currentProduct->sig;
+        }
+        if (cartSize > maxCartSize) {
+            maxCartSize = cartSize;
+            maxUser = currentUser->usuario;
+        }
+        currentUser = currentUser->sig;
+    }
+
+    return maxUser;
 }
 
 float promedioPrecioProductos(struct Amazonas *amazonas) {
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
-    /* CODIGO AQUI */
+    struct NodoProductos *currentProduct = amazonas->productos;
+    float totalPrice = 0.0;
+    int totalProducts = 0;
+
+    while (currentProduct != NULL) {
+        totalPrice += currentProduct->producto->precio; // Suponiendo que 'precio' es un campo en 'Producto'
+        totalProducts++;
+        currentProduct = currentProduct->sig;
+    }
+
+    if (totalProducts == 0) {
+        return 0.0;
+    }
+
+    return totalPrice / totalProducts;
 }
 
 /* Ejercicio propuesto */
